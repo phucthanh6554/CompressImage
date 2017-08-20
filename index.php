@@ -1,3 +1,9 @@
+<?php
+  require_once('lib.php');
+
+  auto_delete_zip(); // Goi xoa file zip
+ ?>
+
 <!DOCTYPE html>
 <html>
   <head>

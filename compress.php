@@ -2,27 +2,43 @@
 require_once('lib.php'); // Yeu cau thu vien lib
 
   $files = array();
+  $zip_name = ''; // Zip file
 
   if(isset($_POST['file_submit'])){
     $data_length = count($_FILES['img']['name']); // Dem so luong file upload
     $percent = $_POST['percent']; // Phan tram giam
 
     for($i = 0 ; $i < $data_length ; $i++){
-      $im = imagecreatefromjpeg($_FILES['img']['tmp_name'][$i]); // Hien tai chi ho tro JPG
+      //$im = imagecreatefromjpeg($_FILES['img']['tmp_name'][$i]); // Hien tai chi ho tro JPG
+
+      $type = $_FILES['img']['type'][$i];
+
+      if($type != 'image/jpeg' && $type != 'image/png'){
+        continue;
+      } // Neu// Neu khong phai la anh thi bo qua khong phai la anh thi bo qua
+
+      switch ($type) {
+        case 'image/jpeg':
+          $im = imagecreatefromjpeg($_FILES['img']['tmp_name'][$i]); // Tao anh jpg
+          break;
+        case 'image/png':
+          $im = imagecreatefrompng($_FILES['img']['tmp_name'][$i]); // Tao anh png
+          break;
+      }
 
       imagejpeg($im, $_FILES['img']['name'][$i], $percent); // Giam 50% chat luong hinh anh
 
-      $file[] = $_FILES['img']['name'][$i];
+      $files[] = $_FILES['img']['name'][$i];
 
       imagedestroy($im);
     }
 
     $zip_name = get_random_key(); // Lay ten file zip
 
-    create_zip($file, $zip_name);
+    create_zip($files, $zip_name);
 
-    delete_img($file); // Xoa anh 
-
-    echo 'Thanh cong';
+    delete_img($files); // Xoa anh
   }
  ?>
+
+ <a href="<?php echo $zip_name.'.zip' ?>">Download</a>

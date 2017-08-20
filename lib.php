@@ -28,5 +28,18 @@
     foreach($file as $data){
       unlink($data);
     }
+
+
+  }
+
+  function auto_delete_zip(){
+    $list_zip = glob("*.zip");
+    $limit_time = 5 * 60; // 5 phut
+
+    foreach($list_zip as $data){
+      if(time() - filectime($data) >= $limit_time){
+        unlink($data); // Xoa file
+      }// Neu vuot qua thoi gian gioi han thi xoa
+    } // Vong lap
   }
  ?>
