@@ -34,7 +34,7 @@
 
   function auto_delete_zip(){
     $list_zip = glob("*.zip");
-    $limit_time = 5 * 60; // 5 phut
+    $limit_time = 60 * 60; // 60 phut
 
     foreach($list_zip as $data){
       if(time() - filectime($data) >= $limit_time){

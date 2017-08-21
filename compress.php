@@ -3,6 +3,7 @@ require_once('lib.php'); // Yeu cau thu vien lib
 
   $files = array();
   $zip_name = ''; // Zip file
+  $base_url = 'http://localhost/CompressImage/';
 
   if(isset($_POST['file_submit'])){
     $data_length = count($_FILES['img']['name']); // Dem so luong file upload
@@ -38,7 +39,7 @@ require_once('lib.php'); // Yeu cau thu vien lib
     create_zip($files, $zip_name);
 
     delete_img($files); // Xoa anh
-  }
- ?>
 
- <a href="<?php echo $zip_name.'.zip' ?>">Download</a>
+    die(json_encode(array('Link' => $base_url.$zip_name.'.zip'))); // tra ve link download
+  } // Neu co hinh anh
+ ?>
